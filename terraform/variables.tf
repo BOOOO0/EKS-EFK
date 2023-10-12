@@ -25,3 +25,15 @@ variable "az-a" {
 variable "az-c" {
   default = "ap-northeast-2c"
 }
+
+variable "nat_ami" {
+  default = "ami-082154e7f18b8b668"
+}
+
+variable "nat_instance_type" {
+  default = "t2.micro"
+}
+
+variable "ec2_ami" {
+  default = "ami-09af799f87c7601fa"
+}
