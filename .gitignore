@@ -40,3 +40,4 @@ terraform.rc
 # End of https://www.toptal.com/developers/gitignore/api/terraform
 
 ip.tf
+ec2_key.pem
