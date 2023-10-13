@@ -4,6 +4,7 @@
 
 - ![image](./img/week1.PNG)
 
+- 정책 코드를 적용한 IAM 계정 Terraform을 사용해서 생성
 - VPC 환경의 네트워크 인프라 구축
 - 이중화된 서브넷 구성 (위 그림엔 생략)
 - NAT AMI를 사용한 NAT 인스턴스 생성하여 NAT Gateway를 대체
