@@ -9,7 +9,7 @@ resource "aws_instance" "nat_instance" {
   key_name = aws_key_pair.nat_key.key_name
 
   tags = {
-    name = "nat_instance"
+    Name = "nat_instance"
   }
 }
 
@@ -31,6 +31,6 @@ resource "aws_instance" "private_instance" {
   security_groups = [aws_security_group.private_security_group.id]
 
   tags = {
-    name = "private_instance"
+    Name = "private_instance"
   }
 }

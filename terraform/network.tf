@@ -2,7 +2,7 @@ resource "aws_vpc" "mento_vpc" {
   cidr_block = var.mento_vpc_cidr_block
 
   tags = {
-    name = "mento-vpc"
+    Name = "mento-vpc"
   }
 }
 
@@ -12,7 +12,7 @@ resource "aws_subnet" "public_subnet_a" {
   availability_zone = var.az-a
 
   tags = {
-    name = "public-subnet-a"
+    Name = "public-subnet-a"
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_subnet" "private_subnet_a" {
   availability_zone = var.az-a
 
   tags = {
-    name = "private-subnet-a"
+    Name = "private-subnet-a"
   }
 }
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "public_subnet_b" {
   availability_zone = var.az-c
 
   tags = {
-    name = "public-subnet-b"
+    Name = "public-subnet-b"
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_subnet" "private_subnet_b" {
   availability_zone = var.az-c
 
   tags = {
-    name = "private-subnet-b"
+    Name = "private-subnet-b"
   }
 }
 
@@ -50,7 +50,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.mento_vpc.id
 
   tags = {
-    name = "igw"
+    Name = "igw"
   }
 }
 
@@ -63,7 +63,7 @@ resource "aws_route_table" "public_rtb" {
   }
 
   tags = {
-    name = "public-rtb"
+    Name = "public-rtb"
   }
 }
 
@@ -73,7 +73,7 @@ resource "aws_network_interface" "nat_interface" {
   security_groups   = [aws_security_group.nat_instance_security_group.id]
 
   tags = {
-    name = "nat-instance-network-interface"
+    Name = "nat-instance-network-interface"
   }
 }
 
@@ -86,7 +86,7 @@ resource "aws_route_table" "private_rtb" {
   }
 
   tags = {
-    name = "private-rtb"
+    Name = "private-rtb"
   }
 }
 
