@@ -5,7 +5,7 @@
 - ![image](./img/week1.PNG)
 
 - VPC 환경의 네트워크 인프라 구축
-- 이중화된 서브넷 구성
+- 이중화된 서브넷 구성 (위 그림엔 생략)
 - NAT AMI를 사용한 NAT 인스턴스 생성하여 NAT Gateway를 대체
 - Public 서브넷과 Private 서브넷 간 통신 확인 위해 임시로 Private 인스턴스 생성하여 SSH
 - ![image](./img/privatessh.PNG)
