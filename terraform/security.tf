@@ -15,6 +15,13 @@ resource "aws_security_group" "nat_instance_security_group" {
     cidr_blocks = [var.local_ip]
   }
 
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.mento_vpc_cidr_block]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
