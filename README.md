@@ -14,3 +14,11 @@
 ### 문제점
 
 - NAT 인스턴스에 대한 라우팅을 Private Subnet에 적용하고 보안 그룹 룰을 설정하였으나 Private 인스턴스에서 인터넷을 통한 패키지 매니저 업데이트 실패, Public은 성공
+
+### 원인과 해결
+
+- 원인은 NAT 인스턴스의 보안 그룹에서 NAT 인스턴스를 통해 통신하는 인스턴스의 ip 대역에 대한 ingress 룰을 허용하지 않은 것
+
+- ingress 룰 수정으로 해결
+
+- ![image](./img/natworks.PNG)
