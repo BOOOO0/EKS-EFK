@@ -22,15 +22,15 @@ resource "aws_eip_association" "nat_ip_association" {
   allocation_id = aws_eip.nat_ip.id
 }
 
-resource "aws_instance" "private_instance" {
-  ami           = var.ec2_ami
-  instance_type = var.nat_instance_type
-  subnet_id     = aws_subnet.private_subnet_a.id
-  key_name      = aws_key_pair.nat_key.key_name
+# resource "aws_instance" "private_instance" {
+#   ami           = var.ec2_ami
+#   instance_type = var.nat_instance_type
+#   subnet_id     = aws_subnet.private_subnet_a.id
+#   key_name      = aws_key_pair.nat_key.key_name
 
-  security_groups = [aws_security_group.private_security_group.id]
+#   security_groups = [aws_security_group.private_security_group.id]
 
-  tags = {
-    Name = "private_instance"
-  }
-}
+#   tags = {
+#     Name = "private_instance"
+#   }
+# }
