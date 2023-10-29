@@ -22,3 +22,67 @@
 - ingress 룰 수정으로 해결
 
 - ![image](./img/natworks.PNG)
+
+## 10/29
+
+- EKS 클러스터 구성
+  - kubectl 설치
+  - eksctl 설치
+  - eksctl 명령어를 통해 AWS EKS 클러스터 구축
+- YAML 스크립트 사용해서 Nginx 배포를 위한 Pod 생성
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+        - name: my-nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+```
+
+- YAML 스크립트 사용해서 Nginx 서비스 실행
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+  labels:
+    run: my-nginx
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    run: my-nginx
+  type: LoadBalancer
+```
+
+- ![image](./img/deploynginx.PNG)
+
+- Nginx 배포 확인
+
+### 의문점
+
+- ![image](./img/getservice.PNG)
+
+- 기존에 구성했던 서브넷과 다른 별도의 서브넷에 노드가 생성된 것으로 보이는데 미리 구성해둔 서브넷에 노드 생성이 가능한지
+
+- 위와 같은 상태라면 전체 아키텍처는 어떻게 되어 있는지
+
+- Private Subnet에 노드가 생성되었다면 어떻게 외부 접속으로 Nginx 배포를 확인할 수 있는지
+
+- 위 궁금증의 답이 로드밸런서의 사용이라면 로드밸런서가 어떤 역할(어떤 원리로)을 해서인지
