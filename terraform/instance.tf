@@ -1,6 +1,9 @@
 resource "aws_instance" "nat_instance" {
   ami           = var.nat_ami
   instance_type = var.nat_instance_type
+
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
+
   #   subnet_id     = aws_subnet.public_subnet_a.id
   network_interface {
     network_interface_id = aws_network_interface.nat_interface.id
