@@ -86,3 +86,40 @@ spec:
 - Private Subnet에 노드가 생성되었다면 어떻게 외부 접속으로 Nginx 배포를 확인할 수 있는지
 
 - 위 궁금증의 답이 로드밸런서의 사용이라면 로드밸런서가 어떤 역할(어떤 원리로)을 해서인지
+
+### 해결
+
+- 우선 eksctl을 사용해서 클러스터를 생성할 경우 전혀 다른 새로운 VPC 환경에 클러스터를 생성하게 된다.
+
+- ![image](./img/createeksctl.PNG)
+
+- 현재 전체 아키텍처는 위와 같으며 기존에 구축한 네트워크 인프라 내에서 생성하려면 클러스터 생성시 yaml 파일을 아래와 같이 작성한 후 `eksctl create cluster -f [파일명].yaml`로 생성할 수 있다.
+
+```yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: mission-cluster
+  region: ap-northeast-2
+
+vpc:
+  subnets:
+    private:
+      ap-northeast-2a: { id: PrivatesubnetAid }
+      ap-northeast-2c: { id: PrivatesubnetBid }
+
+nodeGroups:
+  - name: mission-wn
+    labels: { role: workers }
+    instanceType: t3.medium
+    desiredCapacity: 1
+    privateNetworking: true
+    volumeSize: 4
+    ssh:
+      allow: true
+```
+
+- 외부에서 접속이 가능한 이유는 쿠버네티스의 Service라는 오브젝트 때문이다. 이 Service는 타입을 설정할 수 있는데 그 타입 중 로드밸런서 타입으로 생성할 경우 이 Service가 외부와 통신하며 트래픽을 private subnet에 있는 Pod로 전달해준다.
+
+- 로드밸런서의 사용으로 이전에 생겼던 public <-> private간 네트워크 통신 문제를 해결할 수 있을 것 같고 쿠버네티스는 그동안 마주해오던 문제들의 해결법을 기능으로 갖추고 있는 느낌을 준다.
