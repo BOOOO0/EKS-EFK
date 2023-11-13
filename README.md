@@ -1,5 +1,9 @@
 # 쿠버네티스 배포와 EFK 모니터링 구축
 
+<details><summary>NAT 인스턴스 생성</summary>
+
+<div markdown="1">
+
 ## 10/11~10/12
 
 - ![image](./img/week1.PNG)
@@ -22,6 +26,14 @@
 - ingress 룰 수정으로 해결
 
 - ![image](./img/natworks.PNG)
+
+</div>
+
+</details>
+
+<details><summary>EKS 클러스터 구성, Nginx 배포</summary>
+
+<div markdown="1">
 
 ## 10/29
 
@@ -123,3 +135,35 @@ nodeGroups:
 - 외부에서 접속이 가능한 이유는 쿠버네티스의 Service라는 오브젝트 때문이다. 이 Service는 타입을 설정할 수 있는데 그 타입 중 로드밸런서 타입으로 생성할 경우 이 Service가 외부와 통신하며 트래픽을 private subnet에 있는 Pod로 전달해준다.
 
 - 로드밸런서의 사용으로 이전에 생겼던 public <-> private간 네트워크 통신 문제를 해결할 수 있을 것 같고 쿠버네티스는 그동안 마주해오던 문제들의 해결법을 기능으로 갖추고 있는 느낌을 준다.
+
+</div>
+
+</details>
+
+<details><summary>EFK 모니터링 구축, 로그 시각화 확인</summary>
+
+<div markdown="1">
+
+## 11/12
+
+- Fluentbit가 로그를 수집하면 ElasticSearch가 로그를 저장하고 Kibana가 로그를 시각화한다.
+
+- ![image](./img/logs.PNG)
+
+### 로드밸런서의 역할
+
+- 로드밸런서를 단순히 부하분산의 용도로 생각했다. 물론 이것도 부하분산이 목적이긴 하지만 이전에 Nginx를 사용해서 배포된 WS에서 리버스 프록시를 하려고 했던 것을 쿠버네티스 서비스로 배포된 Nginx 서비스를 로드밸런서 타입으로 배포해서 가능하게 할 수 있다.
+
+- 그리고 다른 쿠버네티스 서비스를 NodePort 타입으로 배포할 경우 위에서 배포된 Nginx 서비스의 로드밸런서를 통해 특정 포트로 들어오는 트래픽을 받을 수 있다.
+
+- ![image](./img/clb.PNG)
+
+- 위 그림처럼 Nginx 로드밸런서의 External-IP의 9200번 포트로 들어오는 트래픽을 ElasticSearch의 Pod로 전달하도록 할 수 있다.
+
+- ![image](./img/3tier.png)
+
+- 위와 같은 3-티어 아키텍처를 설계할 때 로드밸런서를 활용할 수 있다.
+
+</div>
+
+</details>
