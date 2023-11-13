@@ -148,6 +148,8 @@ nodeGroups:
 
 - Fluentbit가 로그를 수집하면 ElasticSearch가 로그를 저장하고 Kibana가 로그를 시각화한다.
 
+- ![image](./img/elasticsearch.PNG)
+
 - ![image](./img/logs.PNG)
 
 ### 로드밸런서의 역할
