@@ -148,6 +148,10 @@ nodeGroups:
 
 - Fluentbit가 로그를 수집하면 ElasticSearch가 로그를 저장하고 Kibana가 로그를 시각화한다.
 
+- ElasticSearch와 Kibana의 Pod를 각각 생성한 후 NodePort 타입으로 서비스를 생성한다.
+
+- Fluentbit의 Pod를 생성해서 로그를 수집하도록 한다.
+
 - ![image](./img/elasticsearch.PNG)
 
 - ![image](./img/logs.PNG)
@@ -165,6 +169,48 @@ nodeGroups:
 - ![image](./img/3tier.png)
 
 - 위와 같은 3-티어 아키텍처를 설계할 때 로드밸런서를 활용할 수 있다.
+
+</div>
+
+</details>
+
+<details><summary>Lambda, CloudWatch, SNS를 사용해서 Slack에 경보 알람 보내기</summary>
+
+<div markdown="1">
+
+## 11/15
+
+- SNS 주제를 생성한다. 여기서 SNS 주제는 특별한 설정을 하지 않고 우선 생성한다.
+
+- KMS 키를 바스티온 호스트에서 aws-cli를 사용해서 생성한다.
+
+- `aws kms encrypt` 명령어를 사용해서 Slack에 전달할 알림을 암호화 할 수 있도록 한다. (명령어를 사용해서 나온 출력 중 CiphertextBlob 항목을 복사하여 Lambda에서 사용할 변수로 등록한다.)
+
+- KMS 키를 사용할 수 있도록 Lambda의 Role에 정책을 추가한다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1443036478000",
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt"],
+      "Resource": ["<your KMS key ARN>"]
+    }
+  ]
+}
+```
+
+- Lambda를 생성할 때 Slack에 알림을 보낼 때 사용하는 블루프린트를 사용하고 생성해둔 SNS와 연결한다.
+
+- Lambda에서 사용할 변수로 Slack 채널명과 위에서 출력된 값을 넣는다.
+
+- CloudWatch에 임계값을 설정하고 미리 생성해서 Lambda와 연결해놓은 SNS와 연결한다.
+
+- 임계값이 넘어가면 Slack 채널에 알람이 온다.
+
+- ![image](./img/slackwarning.PNG)
 
 </div>
 
